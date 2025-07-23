@@ -25,8 +25,6 @@ mini-rag-chatbot/
 ├── requirements.txt
 └── retriever.py
 
-text
-
 ## Installation
 
 1.  **Clone the repository:**
