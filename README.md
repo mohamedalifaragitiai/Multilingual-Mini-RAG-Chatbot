@@ -15,8 +15,8 @@ This project implements a lightweight, multilingual (English and Arabic) Retriev
 
 mini-rag-chatbot/
 ├── data/
-│ ├── arabic_docs.json
-│ └── english_docs.json
+│   ├── arabic_docs.json
+│   └── english_docs.json
 ├── .env
 ├── config.py
 ├── generator.py
@@ -24,6 +24,7 @@ mini-rag-chatbot/
 ├── README.md
 ├── requirements.txt
 └── retriever.py
+
 
 ## Installation
 
