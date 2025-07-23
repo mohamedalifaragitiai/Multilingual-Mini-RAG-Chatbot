@@ -13,17 +13,8 @@ This project implements a lightweight, multilingual (English and Arabic) Retriev
 
 ## Project Structure
 
-mini-rag-chatbot/
-├── data/
-│   ├── arabic_docs.json
-│   └── english_docs.json
-├── .env
-├── config.py
-├── generator.py
-├── main.py
-├── README.md
-├── requirements.txt
-└── retriever.py
+📁 Project Structure
+<pre> mini-rag-chatbot/ ├── data/ # Folder containing source documents │ ├── arabic_docs.json # Arabic language documents │ └── english_docs.json # English language documents ├── .env # Environment variables file (e.g., API keys) ├── config.py # Configuration settings ├── generator.py # LLM-based response generator ├── main.py # Main entry script to run the chatbot ├── README.md # Project documentation ├── requirements.txt # Python dependencies └── retriever.py # Document retrieval logic (e.g., vector search) </pre>
 
 
 
