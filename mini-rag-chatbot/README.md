@@ -31,7 +31,7 @@ text
 
 1.  **Clone the repository:**
     ```
-    git clone <your_repository_url>
+    git clone git@github.com:mohamedalifaragitiai/Multilingual-Mini-RAG-Chatbot.git
     cd mini-rag-chatbot
     ```
 

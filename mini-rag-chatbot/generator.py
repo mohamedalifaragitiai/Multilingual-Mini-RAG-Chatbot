@@ -1,6 +1,6 @@
-# generator.py
+
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import pipeline
 from config import LLM_MODEL, HF_TOKEN
 import logging
 
@@ -14,11 +14,10 @@ class Generator:
     def __init__(self):
         logger.info("Initializing Generator...")
         try:
-            # Use the pipeline for easier text generation
             self.generator_pipeline = pipeline(
                 "text-generation",
                 model=LLM_MODEL,
-                torch_dtype=torch.float32, # Use float32 for CPU
+                torch_dtype=torch.float32,
                 trust_remote_code=True,
                 token=HF_TOKEN
             )
@@ -27,33 +26,45 @@ class Generator:
             logger.error(f"Failed to load the language model: {e}")
             self.generator_pipeline = None
 
-    def generate_response(self, question: str, context: list[str]) -> str:
+    def generate_response(self, question: str, context: list[str], lang: str) -> str:
         """
-        Generates a response based on the question and retrieved context.
+        Generates a response based on the question, context, and language.
         """
         if not self.generator_pipeline:
             return "Error: Language model is not available."
 
         context_str = "\n".join(f"- {doc}" for doc in context)
         
-        # A simple prompt template
-        prompt = f"""
-        You are a helpful assistant. Answer the following question based on the provided context.
-        If the context does not contain the answer, say so.
+        # Dynamic prompt based on language ---
+        if lang == 'ar':
+            prompt = f"""
+            أنت مساعد ذكي. أجب على السؤال التالي باللغة العربية بناءً على السياق المقدم فقط.
+            إذا كان السياق لا يحتوي على إجابة، قل "المعلومات غير متوفرة في السياق".
+
+            السياق:
+            {context_str}
+
+            السؤال: {question}
+
+            الجواب:
+            """
+        else: # Default to English
+            prompt = f"""
+            You are a helpful assistant. Answer the following question in English based only on the provided context.
+            If the context does not contain the answer, say "The information is not available in the context".
+
+            Context:
+            {context_str}
+
+            Question: {question}
+
+            Answer:
+            """
         
-        Context:
-        {context_str}
-        
-        Question: {question}
-        
-        Answer:
-        """
-        
-        logger.info("Generating response with the following prompt:")
+        logger.info(f"Generating response for language '{lang}' with the following prompt:")
         logger.info(prompt)
         
         try:
-            # The pipeline handles tokenization and generation
             generated = self.generator_pipeline(
                 prompt,
                 max_new_tokens=150,
@@ -64,7 +75,8 @@ class Generator:
             response = generated[0]['generated_text']
             
             # Clean up the response to only return the answer part
-            answer = response.split("Answer:")[1].strip()
+            answer_marker = "الجواب:" if lang == 'ar' else "Answer:"
+            answer = response.split(answer_marker)[-1].strip()
             return answer
         except Exception as e:
             logger.error(f"Error during response generation: {e}")

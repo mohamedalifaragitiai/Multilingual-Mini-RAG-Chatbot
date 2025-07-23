@@ -1,4 +1,3 @@
-# retriever.py
 import faiss
 import numpy as np
 import json
