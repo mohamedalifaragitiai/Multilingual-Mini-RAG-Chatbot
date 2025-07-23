@@ -1,0 +1,10 @@
+# requirements.txt
+fastapi
+uvicorn
+python-dotenv
+sentence-transformers
+transformers
+torch
+faiss-cpu
+langdetect
+pydantic
